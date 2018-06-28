@@ -1,18 +1,23 @@
 FROM centos:7
-MAINTAINER The CentOS Project <cloud-ops@centos.org>
-LABEL Vendor="CentOS" \
-      License=GPLv2 \
-      Version=2.4.6-40
+MAINTAINER Praveenkumar Nayak
 
+RUN apt-get update
 
-RUN yum -y --setopt=tsflags=nodocs update && \
-    yum -y --setopt=tsflags=nodocs install httpd && \
-    yum clean all
+# installing an editor is not necessary, but is handy
+RUN apt-get -y install nano
+RUN apt-get -y install vim
+RUN apt-get -y install emacs25-nox
 
-EXPOSE 80
+# installing an netstat is not necessary, but is handy
+RUN apt-get install net-tools
 
-# Simple startup script to avoid some issues observed with container restart
-ADD run-httpd.sh /run-httpd.sh
-RUN chmod -v +x /run-httpd.sh
+# openssl is the only required thing to install
+RUN apt-get -y install openssl
 
-CMD ["/run-httpd.sh"]
+ADD bash_history /root/.bash_history
+ADD dades /tmp/dades
+
+RUN echo "alias ll='ls -l'" >> /root/.bashrc
+RUN bash -c "history -a"
+
+WORKDIR /root
