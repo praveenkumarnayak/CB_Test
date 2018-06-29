@@ -1,18 +1,18 @@
 FROM centos:7
 MAINTAINER Praveenkumar Nayak
 
-RUN sudo apt-get update
+RUN apt-get -y update
 
 # installing an editor is not necessary, but is handy
-RUN sudo apt-get -y install nano
-RUN sudo apt-get -y install vim
-RUN sudo apt-get -y install emacs25-nox
+RUN apt-get -y install nano
+RUN apt-get -y install vim
+RUN apt-get -y install emacs25-nox
 
 # installing an netstat is not necessary, but is handy
-RUN sudo apt-get install net-tools
+RUN apt-get install net-tools
 
 # openssl is the only required thing to install
-RUN sudo apt-get -y install openssl
+RUN apt-get -y install openssl
 
 ADD bash_history /root/.bash_history
 ADD dades /tmp/dades
